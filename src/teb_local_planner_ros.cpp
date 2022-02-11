@@ -906,12 +906,14 @@ void TebLocalPlannerROS::saturateVelocity(double& vx, double& vy, double& omega,
     omega *= ratio_omega;
   }
 
-  double vel_linear = std::hypot(vx, vy);
-  if (vel_linear > max_vel_trans)
-  {
-    double max_vel_trans_ratio = max_vel_trans / vel_linear;
-    vx *= max_vel_trans_ratio;
-    vy *= max_vel_trans_ratio;
+  if (max_vel_y > 0.) { // only limit with max_vel_trans for holonomic vehicles
+    double vel_linear = std::hypot(vx, vy);
+    if (vel_linear > max_vel_trans)
+    {
+      double max_vel_trans_ratio = max_vel_trans / vel_linear;
+      vx *= max_vel_trans_ratio;
+      vy *= max_vel_trans_ratio;
+    }
   }
 }
      
